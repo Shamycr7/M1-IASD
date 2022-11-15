@@ -12,10 +12,10 @@
 
 
 
-struct params {
-    int numero;
-    int ds;
-    int nbrConnexion;
+struct parametre {
+    int numero_P;
+    int descripteur;
+    int nombre_connexion;
     char port[10];
     int otherNumb[];
 };
@@ -30,24 +30,24 @@ int processus(int nbrProcessus){
 
 
 void* acceptFnc(void* param){
-    struct params *args = (struct params *) param;
-    int numero = args->numero;
-    int ds = args->ds;
-    int nbrConnexion = args->nbrConnexion;
-    printf("Client<%d>: Thread Accepte: dans le thread accepte\n", numero);
+    struct parametre *args = (struct parametre *) param;
+    int numero_P = args->numero_P;
+    int descripteur = args->descripteur;
+    int nombre_connexion = args->nombre_connexion;
+    printf("Client<%d>: Thread Accepte: dans le thread accepte\n", numero_P);
 
     struct sockaddr_in adCV;
     socklen_t lgCV = sizeof(struct sockaddr_in);
      int dsCV;
-    for(int i =0; i<nbrConnexion ; i++){
-        printf("Client<%d> : THREAD ACCEPT : ATTENTE DE CONNECTION DU %d client\n ",numero,i);
-        dsCV = accept(ds,(struct sockaddr *) &adCV,&lgCV);
+    for(int i =0; i<nombre_connexion ; i++){
+        printf("Client<%d> : THREAD ACCEPT : ATTENTE DE CONNECTION DU %d client\n ",numero_P,i);
+        dsCV = accept(descripteur,(struct sockaddr *) &adCV,&lgCV);
         if(dsCV < 0){
             perror("Client<> preomblem acceptation\n");
-            close(ds);
+            close(descripteur);
             exit(1);
         }
-        printf("Client<%d>: Thread Accepte: le client <%d> %s:%d est connecté  \n", numero, i, inet_ntoa(adCV.sin_addr),  dsCV);
+        printf("Client<%d>: Thread Accepte: le client <%d> %s:%d est connecté  \n", numero_P, i, inet_ntoa(adCV.sin_addr),  dsCV);
 
 
     }
@@ -57,21 +57,21 @@ void* acceptFnc(void* param){
 int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
         int portR = 7777;
         int tabConnex[nbrProcessus];
-        int nbrConnexion = 0;
+        int nombre_connexion = 0;
         
         printf("//-------------------- creation des processus -------------------------//\n");
         
-        int numero = processus(nbrProcessus);
-        if(numero != 0){
+        int numero_P = processus(nbrProcessus);
+        if(numero_P != 0){
 		
 
 		//----creation d'un tableau contenant la liste des processus a connecter avec celle la
 		for(int i = 0; i < nbrLiaison; i++){
-			if(tabLiaison[i][0] == numero || tabLiaison[i][1] == numero){
-				if(tabLiaison[i][0] != numero) tabConnex[nbrConnexion] = tabLiaison[i][0];
-				else tabConnex[nbrConnexion] = tabLiaison[i][1];
+			if(tabLiaison[i][0] == numero_P || tabLiaison[i][1] == numero_P){
+				if(tabLiaison[i][0] != numero_P) tabConnex[nombre_connexion] = tabLiaison[i][0];
+				else tabConnex[nombre_connexion] = tabLiaison[i][1];
 				//printf("[%d][%d]\n", numero, tabConnexion[nbrConnexion]);
-	    		nbrConnexion++;
+	    		nombre_connexion++;
 			}
 	    }
         
@@ -83,14 +83,14 @@ int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
 
     int dsServ = socket (PF_INET,SOCK_STREAM,0);
     if(dsServ == -1){
-        printf("Client<%d> : pb creation socket\n",numero);
+        printf("Client<%d> : pb creation socket\n",numero_P);
         exit(1);
     }
-    printf("Client<%d> : creation de la socket réussie \n",numero);
+    printf("Client<%d> : creation de la socket réussie \n",numero_P);
 
 
     printf("//-------------------- reglage des ports -------------------------//\n");
-    portR = portR + numero;
+    portR = portR + numero_P;
 	char portReseau[10];
 	printf(portReseau, "%d", portR);
     
@@ -101,12 +101,12 @@ int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
      server.sin_addr.s_addr = INADDR_ANY;
      server.sin_port = (htons ((short)atoi(portReseau)));
      if(bind(dsServ,(struct sockaddr*)&server,sizeof(server))<0){
-        printf("Client<%d>: erreur bind", numero);
+        printf("Client<%d>: erreur bind", numero_P);
         close(dsServ);
         exit(1);
         }
     
-     printf("Client<%d> : bind réussie \n",numero);
+     printf("Client<%d> : bind réussie \n",numero_P);
 
 
 
@@ -114,29 +114,29 @@ int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
 
     int ecoute = listen(dsServ,nbrProcessus);
     if(ecoute < 0){
-        printf("Client<%d> : je suis sourd(e) \n",numero);
+        printf("Client<%d> : je suis sourd(e) \n",numero_P);
         close(dsServ);
         exit(1);
     }
 
-    printf("Client<%d> : serveur mise en ecoute \n",numero);
+    printf("Client<%d> : serveur mise en ecoute \n",numero_P);
 
     printf("//-------------------- creation des threads accept  -------------------------//\n");
 
        
        pthread_t accept;
 
-       struct params paramAcc;
-       paramAcc.numero=numero;
-       paramAcc.ds=dsServ;
-       paramAcc.nbrConnexion=nbrConnexion;
+       struct parametre paramAcc;
+       paramAcc.numero_P=numero_P;
+       paramAcc.descripteur=dsServ;
+       paramAcc.nombre_connexion=nombre_connexion;
 
        sprintf(paramAcc.port,"%d",portR);
         
     printf("//-------------------- lancemant du thread d'acceptation -------------------------//\n");
 
     
-        printf("Client<%d> : lacemant du thread ",numero);
+        printf("Client<%d> : lacemant du thread ",numero_P);
         if(pthread_create(&accept,NULL,acceptFnc,&paramAcc)!=0){
             perror("ERREUR CREATION THREAD ACCEPT!\n");
             exit(1);
@@ -147,17 +147,17 @@ int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
     printf("//-------------------- creation des threads demmande  -------------------------//\n");
 
     pthread_t demande;
-    struct params paramDmnd;
-    paramDmnd.numero = numero;
+    struct parametre paramDmnd;
+    paramDmnd.numero_P = numero_P;
     //paramDmnd.ds = dsServ;
-    paramDmnd.nbrConnexion = nbrConnexion;
+    paramDmnd.nombre_connexion = nombre_connexion;
     memcpy(paramDmnd.otherNumb,tabConnex,sizeof tabConnex);
     sprintf(paramDmnd.port,"%d",portR);
 
     printf("//-------------------- lancementdes threads demmande  -------------------------//\n");
 
     sleep(2);
-	printf("Client<%d>: lancement du thread de demande de connexion <>%s\n", numero, paramDemande.port);
+	printf("Client<%d>: lancement du thread de demande de connexion <>%s\n", numero_P, paramDemande.port);
 	if(pthread_create(&demande, NULL, demandeFnc, &paramDmnd) != 0){
 	    perror("erreur creation thread demande");
 	    exit(1);
@@ -168,14 +168,14 @@ int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
 	    pthread_join(accept, NULL);
 
 
-    for(int k = 0; k < nbrConnexion; k++){
-	    printf("numero[%d] s'est connecte avec le numero <%d> : socket[%d]+++++++\n", numero, tabConnex[k], tab[k]);
+    for(int k = 0; k < nombre_connexion; k++){
+	    printf("numero[%d] s'est connecte avec le numero <%d> : socket[%d]+++++++\n", numero_P, tabConnex[k], tab[k]);
 	    close(tab[k]);
 	}
     free(tab);
 
     close(dsServ);
-    printf("Client %d: fin\n",numero);
+    printf("Client %d: fin\n",numero_P);
     }else{while (wait(NULL)>0);}
 
 
