@@ -1,16 +1,36 @@
-#include <string.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <stdlib.h>
+#include <stdio.h> 
 #include <unistd.h>
-#include <pthread.h>
 #include <stdlib.h>
-#define TAILLE_MAX 1000 // Tab  
+#include <string.h>
+#include <stdint.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+# include <sys/wait.h>
 
-int nbpro ;
-int nbconnex;
+
+
+
+
+#include "reseau.h"
+
+
+
+//#define TAILLE_MAX 1000 // Tab  
 
 int main( int argc , char *argv[]){
+
+int nbpro =0;
+int nbconnex =0 ;
+char chaine[256] = ""; 
+
+
+
+
+
+
 FILE* fichier = fopen("DSJC250.5.txt",  "r");
 
 if (fichier == NULL) {       
@@ -18,11 +38,13 @@ if (fichier == NULL) {
   exit(EXIT_FAILURE); 
 }
 
-char chaine[TAILLE_MAX] = ""; 
-int st[TAILLE_MAX][2];
+
+
+
+int st[nbconnex /2][2];
  
      
-while( fgets(chaine, TAILLE_MAX, fichier)!= NULL) {
+while( fgets(chaine, 255, fichier)!= NULL) {
   if(chaine[0]=='p'){
     char * texte =strdup(chaine);
     char* tab;
@@ -30,11 +52,11 @@ while( fgets(chaine, TAILLE_MAX, fichier)!= NULL) {
     while(((tab =strsep(&texte," ") )!=NULL) ){
       if(i==2){
         nbpro= atoi( tab);
-        printf("le nombre de processeurs est :%d \n", nbpro);
+       // printf("le nombre de processeurs est :%d \n", nbpro);
       }
       if(i==3){
         nbconnex = atoi(tab);
-        printf("le nombre de connexionx est :%d \n", nbconnex);
+      //  printf("le nombre de connexionx est :%d \n", nbconnex);
       }
        i++;
      
@@ -53,15 +75,15 @@ while( fgets(chaine, TAILLE_MAX, fichier)!= NULL) {
         int k;
         k=atoi(tab1);
         st[i][0] = k;
-        printf(" I | %d \n",st[i][0]);
+        //printf(" I | %d \n",st[i][0]);
     }
                 
       if(p==2){
         int h ;
         h=atoi(tab1);
         st[i][1] = h;
-        printf(" J | %d \n",st[i][1]);
-         printf("***********************\n");
+       // printf(" J | %d \n",st[i][1]);
+        // printf("***********************\n");
       }
                 
                  
@@ -70,6 +92,8 @@ while( fgets(chaine, TAILLE_MAX, fichier)!= NULL) {
      }
    }
 }
+
+   int reseau = creation(st, nbpro, nbconnex / 2 );
 
 printf("***************************************************************************** \n");
 fclose(fichier);

@@ -1,0 +1,38 @@
+
+Pour commencer (en logique des propositions)
+
+
+% instance
+benoit.
+cloe.
+
+
+% encoding
+djamel :- cloe. 
+amandine :- felix.
+xena :- emma.
+felix :- benoit.
+xena :- not amandine, benoit.
+
+
+
+
+Pour commencer (en logique du premier ordre)
+
+% instance
+herbivore(chevre).
+humain(chapron).
+
+
+
+% encoding
+animal(X) :- carnivore(X). %3
+animal(X) :- herbivore(X).
+%herbivore(X) :- omnivore(X). %4
+%carnivore(X) :- omnivore(X).
+%omnivore(X) :- humain(X). %5
+animal(Y) :- canrnivore(X),mange(X,Y). %6
+plante(Y) :- herbivore(X),mange(X,Y). %7
+mange(X,Y) :- carnivore(X),herbivore(Y), X!=Y. %8
+:- animal(X), plante(X).
+animal(X) :- omnivore(X).

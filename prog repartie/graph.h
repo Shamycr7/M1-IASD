@@ -20,16 +20,68 @@ struct parametre {
     int otherNumb[];
 };
 
-int processus(int nbrProcessus){
-    for(int i=0; i<nbrProcessus; i++){
+int proc(int nbprecessus){
+    for(int i=0; i<nbprecessus; i++){
         if(fork() == 0) return (i+1);
     }
     return(0);
 }
     
+void *demande(void *param){
+    struct parametre *args = (struct parametre *) param;
+    int numero_P = args->numero_P;
+    int nombre_connexion = args->nombre_connexion;
+    int otherNumb[nombre_connexion];
+    for(int i = 0; i < nombre_connexion; i++) otherNumb[i] = args->otherNumb[i];
+    char *portChar = args->port;
+    int port = atoi(args->port);
+    int *tabDs = malloc(sizeof(int) * nombre_connexion); // contient le descripteur des connexion
+    int i = 0;
+    printf("Client<%d>: Thread Demande: dans le thread demande avec le port <%s>\n", numero_P, portChar);
+
+    while(i < nombre_connexion){
+        printf("Client<%d>: Thread Demande: mon port <%d>\n", numero_P, port);
+        int portAutre = 0;
+
+        // Il faut faire la demande sur le bon numero de port 
+        portAutre = port + otherNumb[i] - numero_P;
+        sprintf(portChar, "%d", portAutre);
+        printf("Client<%d>: Thread Demande: port autre <%d>, numero autre <%d>\n", numero_P, portAutre, otherNumb[i]);
+
+        tabDs[i] = socket(PF_INET, SOCK_STREAM, 0);
+        if(tabDs[i] == -1){
+            printf("Client : pb creation socket\n");
+            exit(1);
+        }
+        printf("Client<%d>: Thread Demande: creation de la socket <%d> pour le numero <%d> : ok\n", numero_P, tabDs[i], otherNumb[i]);
+
+        struct sockaddr_in adrAutreClient;
+        adrAutreClient.sin_family = AF_INET;
+        adrAutreClient.sin_addr.s_addr = INADDR_ANY;
+        adrAutreClient.sin_port = htons((short)atoi(portChar));
+        int lgAdrPr = sizeof(struct sockaddr_in);
+        printf("Client<%d>: Thread Demande: envoie du demande vers le processus numero <%s> \n", args->numero, portChar);
+        int conn = connect(tabDs[i], (struct sockaddr *) &adrAutreClient, lgAdrPr);
+        if(conn < 0){
+        	printf("<%d>", numero_P);
+            perror ("Client: Thread Demande: pb au connect :");
+            close (tabDs[i]);
+            exit (1);
+        }
+        printf("Client<%d>: Thread Demande: demande de connexion au processus <%d> reussie\n", args->numero, otherNumb[i]);
+        i++;
+    }
+
+    // printf("<%d>==================================\n", numero);
+    // for(int k = 0; k < nbrConnexion; k++){
+    //     printf("[%d]", tabDs[k]);
+    // }
+    // printf("\n==================================\n");
+    pthread_exit(tabDs);
+}
 
 
-void* acceptFnc(void* param){
+void* accepte(void* param){
     struct parametre *args = (struct parametre *) param;
     int numero_P = args->numero_P;
     int descripteur = args->descripteur;
@@ -54,14 +106,14 @@ void* acceptFnc(void* param){
     close(dsCV);
 }
     
-int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
+int mise_enplace(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
         int portR = 7777;
         int tabConnex[nbrProcessus];
         int nombre_connexion = 0;
         
         printf("//-------------------- creation des processus -------------------------//\n");
         
-        int numero_P = processus(nbrProcessus);
+        int numero_P = proc(nbrProcessus);
         if(numero_P != 0){
 		
 
@@ -137,7 +189,7 @@ int creation(int tabLiaison[][2], int nbrProcessus, int nbrLiaison){
 
     
         printf("Client<%d> : lacemant du thread ",numero_P);
-        if(pthread_create(&accept,NULL,acceptFnc,&paramAcc)!=0){
+        if(pthread_create(&accept,NULL,accepte,&paramAcc)!=0){
             perror("ERREUR CREATION THREAD ACCEPT!\n");
             exit(1);
         }
