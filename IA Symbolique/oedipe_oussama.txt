@@ -1,0 +1,37 @@
+0.en faisant en run sur ce que contient le fichier oedipe.lp on obtient:
+
+clingo version 5.6.0 (c0a2cf99)
+Reading from stdin
+Solving...
+Answer: 1
+homme(agenor) homme(cadmos) homme(polydore) homme(labdacos) homme(penthe) homme(oclasos) homme(menecee) homme(creon) homme(hemon) homme(laios) homme(oedipe) homme(eteocle) homme(polynice) homme(thersandre) homme(ladamos) femme(harmonie) femme(ino) femme(agave) femme(nicteis) femme(jocaste) femme(eurydice) femme(antigone) femme(ismene) aEnfant(agenor,cadmos) aEnfant(cadmos,ino) aEnfant(cadmos,agave) aEnfant(cadmos,polydore) aEnfant(harmonie,ino) aEnfant(harmonie,agave) aEnfant(harmonie,polydore) aEnfant(polydore,labdacos) aEnfant(nicteis,labdacos) aEnfant(agave,penthe) aEnfant(labdacos,laios) aEnfant(penthe,oclasos) aEnfant(oclasos,menecee) aEnfant(menecee,jocaste) aEnfant(menecee,creon) aEnfant(creon,hemon) aEnfant(eurydice,hemon) aEnfant(laios,oedipe) aEnfant(jocaste,oedipe) aEnfant(jocaste,antigone) aEnfant(jocaste,eteocle) aEnfant(jocaste,ismene) aEnfant(jocaste,polynice) aEnfant(oedipe,antigone) aEnfant(oedipe,eteocle) aEnfant(oedipe,ismene) aEnfant(oedipe,polynice) aEnfant(polynice,thersandre) aEnfant(eteocle,ladamos) roi(agenor,tyr) roi(cadmos,thebes) roi(penthe,thebes) roi(creon,thebes) roi(oedipe,thebes) roi(eteocle,thebes) roi(ladamos,thebes) personnage(agenor) personnage(cadmos) personnage(harmonie) personnage(ino) personnage(agave) personnage(polydore) personnage(labdacos) personnage(nicteis) personnage(penthe) personnage(oclasos) personnage(menecee) personnage(jocaste) personnage(creon) personnage(hemon) personnage(eurydice) personnage(laios) personnage(oedipe) personnage(antigone) personnage(ismene) personnage(eteocle) personnage(polynice) personnage(thersandre) personnage(ladamos)
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 0.007s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+
+1.
+pere(X,Y) :- homme(X), aEnfant(X,Y). 
+%#show pere/2.
+mere(X,Y) :- femme(X), aEnfant(X,Y).
+%#show mere/2.
+parent(X,Y) :- pere(X,Y).
+parent(X,Y) :- mere(X,Y).
+%#show parent/2.
+
+2.
+roi_pere_roi(X) :- pere(Y,X), roi(Y,V), roi(X,W).
+%#show roi_pere_roi/1.
+
+3.
+roi_pere_roi_meme_pays(X) :- pere(Y,X), roi(Y,V), roi(X,V).
+%#show roi_pere_roi_meme_pays/1.
+
+4.
+grand_parent(X,Y) :- parent(X,Z), parent(Z,Y).
+%#show grand_parent/2.
+
+5.

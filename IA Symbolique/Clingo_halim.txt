@@ -1,0 +1,474 @@
+% TP1
+
+% EXO1 - En logique des propositions
+% Conclusion :- hypothèse
+
+% Fait
+b,c.
+
+% Règles
+d:-c.
+a:-f.
+x:-e.
+f:-b.
+x:-b,not a.
+
+
+% EXO2 - En logique du premier ordre
+% Fait : qqch.
+% conclusion :- hypothése
+
+% Question 1
+
+% 1 Fait
+herbivore(blanchette).
+
+% 2 Fait
+humain(petitChaperonRouge).
+
+% 3 Règles 1 et 2
+animal(X):-carnivores(X).
+animal(X):-herbivore(X).
+
+% 4 Règles 3 et 4
+carnivores(X):-omnivores(X).
+herbivore(X):-omnivores(X).
+
+% 5 Règle 5
+omnivores(X):-humain(X).
+
+% 6 Règle 6 A(x) ^ M(x,y) -> A(y)
+animal(Y):-animal(X),carnivores(X),mange(X,Y).
+
+% 7 Règle 7
+plante(Y):-animal(X),herbivore(X), mange(X,Y).
+
+% 8 Règle 8
+mange(X,Y):-animal(X),carnivores(X),animal(Y),herbivore(Y).
+
+% Question 2 
+% On modifie la phrase 8 :
+mange(X,Y):-animal(X),carnivores(X),animal(Y),herbivore(Y),not X==Y.
+
+
+% Question 3 
+:- animal(X),plante(X). %contrainte négative 
+
+% Question 4
+animal(X):-omnivores(X).
+
+
+
+% oedipe-family-factbase.lp
+
+% les caractères accentués ne sont pas admis par clingo
+% ou alors il faut les mettre entre guillemets
+
+% BASE DE FAITS 
+
+% personnage est un prédicat unaire
+% on utilise une écriture raccourcie permise par Clingo: 
+% p(a;b). est un raccourci pour p(a). p(b). 
+% Ne pas confondre p(a;b) et p(a,b) : écriture raccourcie pour prédicat unaire, et prédicat binaire !
+personnage(agenor;cadmos;harmonie;ino;agave;polydore;labdacos;nicteis;penthe;oclasos).
+personnage(menecee;jocaste;creon;hemon;eurydice;laios;oedipe).
+personnage(antigone;ismene;eteocle;polynice;thersandre;ladamos).
+
+% sexe des personnages
+homme(agenor). % agénor
+homme(cadmos).
+femme(harmonie).
+femme(ino).
+femme(agave).	  % agavé
+homme(polydore).
+homme(labdacos).
+femme(nicteis).   % nictéis
+homme(penthe). % penthé
+homme(oclasos). 
+homme(menecee). % ménécée
+femme(jocaste).
+homme(creon).   % créon
+homme(hemon). % hémon
+femme(eurydice).
+homme(laios).
+homme(oedipe).
+femme(antigone).
+femme(ismene).   % ismène
+homme(eteocle). % étéocle
+homme(polynice).
+homme(thersandre).
+homme(ladamos).
+
+% relations parent-enfant
+aEnfant(agenor,cadmos).
+aEnfant(cadmos,ino).
+aEnfant(cadmos,agave).
+aEnfant(cadmos,polydore).
+aEnfant(harmonie,ino).
+aEnfant(harmonie,agave).
+aEnfant(harmonie,polydore).
+aEnfant(polydore,labdacos).
+aEnfant(nicteis,labdacos).
+aEnfant(agave,penthe).
+aEnfant(labdacos,laios).
+aEnfant(penthe,oclasos).
+aEnfant(oclasos,menecee).
+aEnfant(menecee,jocaste).
+aEnfant(menecee,creon).
+aEnfant(creon,hemon).
+aEnfant(eurydice,hemon). 
+aEnfant(laios,oedipe).
+aEnfant(jocaste,oedipe).
+aEnfant(jocaste,antigone).
+aEnfant(jocaste,eteocle).
+aEnfant(jocaste,ismene).
+aEnfant(jocaste,polynice).
+aEnfant(oedipe,antigone).
+aEnfant(oedipe,eteocle).
+aEnfant(oedipe,ismene).
+aEnfant(oedipe,polynice).
+aEnfant(polynice, thersandre). 
+aEnfant(eteocle,ladamos). 
+
+% les rois
+roi(agenor,tyr).
+roi(cadmos,thebes).	% thèbes
+roi(penthe,thebes).
+roi(creon, thebes).
+roi(oedipe,thebes).
+roi(eteocle,thebes).
+roi(ladamos,thebes). 
+
+% BASE DE REGLES (A ECRIRE)
+%1 x pere de y
+pere(X,Y):-aEnfant(X,Y),homme(X).
+mere(X,Y):-aEnfant(X,Y),femme(X).
+parent(X,Y):-pere(X,Y). % X parent de Y
+parent(X,Y):-mere(X,Y).
+
+%2 Y est le parent de X
+roiProi(X,Y):-roi(X,V1),roi(Y,V2),pere(Y,X).
+
+%3
+roiProiMemeVille(X,Y):-roi(X,V1),roi(Y,V2),pere(Y,X), V1==V2.
+
+% Question 4
+grandParent(X,Y):-parent(X,Z),parent(Z,Y).
+grandParentOedipe(X,oedipe):-parent(X,Z),parent(Z,oedipe).
+
+%5 X est l'ancétre de Y
+//Récurrsif
+ancetre1(X,Y) :- parent(X,Y)
+ancetre2(X,Y) :- ancetre1(X,Y)
+
+%5 X est l'ancétre de Y
+ancetre1(X,Y) :- personnage(X), parent(X,Z), grandParent(Z,Y).
+ancetre2(X,Y) :- parent(X,Y),ancetre1(X,Y).
+
+ ancetre2(agenor,oclasos) ancetre2(agenor,laios) ancetre2(cadmos,menecee) ancetre2(cadmos,oedipe) ancetre2(polydore,antigone) ancetre2(polydore,eteocle) ancetre2(polydore,ismene) ancetre2(polydore,polynice) ancetre2(labdacos,ladamos) ancetre2(labdacos,thersandre) ancetre2(penthe,oedipe) ancetre2(penthe,antigone) ancetre2(penthe,eteocle) ancetre2(penthe,ismene) ancetre2(penthe,polynice) ancetre2(penthe,hemon) ancetre2(oclasos,antigone) ancetre2(oclasos,eteocle) ancetre2(oclasos,ismene) ancetre2(oclasos,polynice) ancetre2(oclasos,ladamos) ancetre2(oclasos,thersandre) ancetre2(menecee,ladamos) ancetre2(menecee,thersandre) ancetre2(harmonie,menecee) ancetre2(harmonie,oedipe) ancetre2(nicteis,antigone) ancetre2(nicteis,eteocle) ancetre2(nicteis,ismene) ancetre2(nicteis,polynice) ancetre2(agave,jocaste) ancetre2(agave,creon)
+
+
+
+#show ancetre2/2.
+
+ancetre(X,Y) :- grandParent(X,Z),grandParent(Z,Y).%%NO
+ancetreOedipe(X,oedipe):-ancetre(X,oedipe). 
+
+% Question 6
+sexeInconnu(X):-not femme(X),not homme(X),personnage(X).
+% #show sexeInconnu/1.
+
+% Question 7
+pere_inconnu(X) :- not pere(_,X), personnage(X).
+mere_inconnu(X) :- not mere(_,X), personnage(X).
+parent_inconnu(X):- pere_inconnu(X), mere_inconnu(X).
+% #show parent_inconnu/1.
+
+% Question 8
+parent_inconnus(X):- pere_inconnu(X), not parent_inconnu(X).
+parent_inconnus(X):- mere_inconnu(X), not parent_inconnu(X).
+% #show parent_inconnus/1.
+
+% Question 9
+pere_en_commun(X,Y):- pere(P,X), pere(P,Y), X!=Y.
+mere_en_commun(X,Y):- mere(M,X), mere(M,Y), X!=Y.
+sibling(X,Y):- pere_en_commun(X,Y), mere_en_commun(X,Y), not X==Y.
+% #show sibling/2.
+half_sibling(X,Y):- pere_en_commun(X,Y), not X==Y.
+half_sibling(X,Y):- mere_en_commun(X,Y), not X==Y.
+% #show half_sibling/2.
+
+% Questio 10
+relation_incestueuse(X,Y):- parent(X,Y), aEnfant(X,Z), aEnfant(Y,Z), X!=Y.
+% #show relation_incestueuse/2.
+
+
+
+
+
+
+
+% TP2
+
+% EX01
+
+parent(a,c).
+parent(a,d).
+parent(a,e).
+parent(b,c).
+parent(b,d).
+parent(b,e).
+
+frereOuSoeur(X,Y) :- parent(Z,X), parent(Z,Y), X!=Y,not frereOuSoeur(Y,X) ,X < Y.
+:- frereOuSoeur(X,X). % change rien
+#show frereOuSoeur/2. % restriction affichage pour lisibilité
+
+
+% EX02 Coloration de graphe
+node(1).
+node(2).
+node(3).
+edge(1,2).
+edge(2,3).
+c(r).
+c(g).
+c(b).
+
+%le node x est colorer par c
+%color(X,C) :- node(X),c(C).
+
+%3 régles d'instanciation 
+color(X,r):- not color(X,g), not color(X,b),node(X).
+color(X,g):- not color(X,r), not color(X,b),node(X).
+color(X,b):- not color(X,r), not color(X,g),node(X).
+
+:-color(X,C), color(Y,C), edge(X,Y), c(C).
+%:-node(X),color(X,C),color(X,C1). interdire un sommet aie 2 couleur diff
+#show color/2.
+
+% EX03 pb de coloration de l'australie 
+node(wa).
+node(nt).
+node(q).
+node(nsw).
+node(v).
+node(sa).
+node(t).
+
+edge(wa,nt).
+edge(nt,q).
+edge(q,nsw).
+edge(nsw,v).
+edge(v,sa).
+edge(wa,sa).
+edge(nt,sa).
+edge(q,sa).
+edge(nsw,sa).
+
+c(r).
+c(g).
+c(b).
+
+%3 régles d'instanciation 
+color(X,r):- not color(X,g), not color(X,b),node(X).
+color(X,g):- not color(X,r), not color(X,b),node(X).
+color(X,b):- not color(X,r), not color(X,g),node(X).
+
+:-color(X,C), color(Y,C), edge(X,Y), c(C).
+
+#show color/2.
+
+
+% EX04 PUZZLE DU ZEBRE
+
+% Nombre de maisons
+number(1).
+number(2).
+number(3).
+number(4).
+number(5).
+
+% Couleur
+colors(red).
+colors(blue).
+colors(green).
+colors(ivory).
+colors(yellow).
+
+% Nationalité
+nationalities(english).
+nationalities(spanish).
+nationalities(japanese).
+nationalities(ukrainian).
+nationalities(norwegian).
+
+% Animmaux
+animals(dog).
+animals(fox).
+animals(snails).
+animals(horse).
+animals(zebra).
+
+% Boissons
+drinks(tea).
+drinks(milk).
+drinks(water).
+drinks(orangejuice).
+drinks(coffee).
+
+% Marks
+cigarettes(kools).
+cigarettes(oldGold).
+cigarettes(parliaments).
+cigarettes(luckyStrike).
+cigarettes(chesterfield).
+
+%
+% alldifferents
+%
+
+%1 { color(House, Color) : colors(Color) } 1 :- houses(House).
+color(H, red) :- number(H), not color(H,blue),not color(H,green), not color(H,ivory), not color(H,yellow).
+color(H, blue) :- number(H), not color(H,red),not color(H,green), not color(H,ivory), not color(H,yellow).
+color(H, green) :- number(H), not color(H,blue),not color(H,red), not color(H,ivory), not color(H,yellow).
+color(H, ivory) :- number(H), not color(H,blue),not color(H,green), not color(H,red), not color(H,yellow).
+color(H, yellow) :- number(H), not color(H,blue),not color(H,green), not color(H,ivory), not color(H,red).
+
+
+%1 { color(House, Color) : houses(House) } 1 :- colors(Color).
+color(1,C):- colors(C), not color(2,C),not color(3,C), not color(4,C), not color(5,C).
+color(2,C):- colors(C), not color(1,C),not color(3,C), not color(4,C), not color(5,C).
+color(3,C) :- colors(C), not color(1,C),not color(2,C), not color(4,C), not color(5,C).
+color(4,C) :- colors(C), not color(1,C),not color(2,C), not color(3,C), not color(5,C).
+color(5,C) :- colors(C), not color(1,C),not color(2,C), not color(3,C), not color(4,C).
+
+
+
+%1 { nationality(House, Nationality) : nationalities(Nationality) } 1 :- houses(House).
+nationality(H, english) :- number(H), not nationality(H,spanish),not nationality(H,japanese), not nationality(H,ukrainian), not nationality(H,norwegian).
+nationality(H, spanish) :- number(H), not nationality(H,english),not nationality(H,japanese), not nationality(H,ukrainian), not nationality(H,norwegian).
+nationality(H, japanese) :- number(H), not nationality(H,english),not nationality(H,spanish), not nationality(H,ukrainian), not nationality(H,norwegian).
+nationality(H, ukrainian) :- number(H), not nationality(H,english),not nationality(H,spanish), not nationality(H,japanese), not nationality(H,norwegian).
+nationality(H, norwegian) :- number(H), not nationality(H,english),not nationality(H,spanish), not nationality(H,japanese), not nationality(H,ukrainian).
+
+%1 { nationality(House, Nationality) : houses(House) } 1 :- nationalities(Nationality).
+nationality(1,N):- nationalities(N), not nationality(2,N),not nationality(3,N), not nationality(4,N), not nationality(5,N).
+nationality(2,N):- nationalities(N), not nationality(1,N),not  nationality(3,N), not  nationality(4,N), not nationality(5,N).
+nationality(3,N) :- nationalities(N), not nationality(1,N),not nationality(2,N), not nationality(4,N), not nationality(5,N).
+nationality(4,N) :- nationalities(N), not nationality(1,N),not nationality(2,N), not nationality(3,N), not nationality(5,N).
+nationality(5,N) :- nationalities(N), not nationality(1,N),not nationality(2,N), not nationality(3,N), not nationality(4,N).
+
+
+
+
+%1 { animal(House, Animal) : animals(Animal) } 1 :- houses(House).
+
+animal(H, dog) :- number(H), not animal(H,fox),not animal(H,snails), not animal(H,horse), not animal(H,zebra).
+animal(H, fox) :- number(H), not animal(H,dog),not animal(H,snails), not animal(H,horse), not animal(H,zebra).
+animal(H, snails) :- number(H), not animal(H,dog),not animal(H,fox), not animal(H,horse), not animal(H,zebra).
+animal(H, horse) :- number(H), not animal(H,dog),not animal(H,fox), not animal(H,snails), not animal(H,zebra).
+animal(H, zebra) :- number(H), not animal(H,dog),not animal(H,fox), not animal(H,snails), not animal(H,horse).
+
+%1 { animal(House, Animal) : houses(House) } 1 :- animals(Animal).??
+animal(1,A):- animals(A), not animal(2,A),not animal(3,A), not animal(4,A), not animal(5,A).
+animal(2,A):- animals(A), not animal(1,A),not animal(3,A), not animal(4,A), not animal(5,A).
+animal(3,A) :- animals(A), not animal(1,A),not animal(2,A), not animal(4,A), not animal(5,A).
+animal(4,A) :- animals(A), not animal(1,A),not animal(2,A), not animal(3,A), not animal(5,A).
+animal(5,A) :- animals(A), not animal(1,A),not animal(2,A), not animal(3,A), not animal(4,A).
+
+
+%1 { drink(House, Drink) : drinks(Drink) } 1 :- houses(House).
+drink(H, tea) :- number(H), not drink(H, milk), not drink(H, water), not drink(H, orangejuice),not drink(H, coffee).
+drink(H, milk) :- number(H), not drink(H, tea), not drink(H, water), not drink(H, orangejuice),not drink(H, coffee).
+drink(H, water) :- number(H), not drink(H, milk), not drink(H, tea), not drink(H, orangejuice),not drink(H, coffee).
+drink(H, orangejuice) :- number(H), not drink(H, milk), not drink(H, water), not drink(H, tea),not drink(H, coffee).
+drink(H, coffee) :- number(H), not drink(H, milk), not drink(H, water), not drink(H, orangejuice),not drink(H, tea).
+
+
+%1 { drink(House, Drink) : houses(House) } 1 :- drinks(Drink).
+
+drink(1,D) :- drinks(D), not drink(2,D),not drink(3,D), not drink(4,D), not drink(5,D).
+drink(2,D) :- drinks(D), not drink(1,D),not drink(3,D), not drink(4,D), not drink(5,D).
+drink(3,D) :- drinks(D), not drink(1,D),not drink(2,D), not drink(4,D), not drink(5,D).
+drink(4,D) :- drinks(D), not drink(1,D),not drink(2,D), not drink(3,D), not drink(5,D).
+drink(5,D) :- drinks(D), not drink(1,D),not drink(2,D), not drink(3,D), not drink(4,D).
+
+
+%1 { smoke(House, Cigarette) : cigarettes(Cigarette) } 1 :- houses(House).
+smoke(H, kools) :- number(H), not smoke(H,oldGold),not smoke(H,chesterfield), not smoke(H,luckyStrike), not smoke(H,parliaments).
+smoke(H, oldGold) :- number(H), not smoke(H,kools),not smoke(H,luckyStrike), not smoke(H,chesterfield), not smoke(H,parliaments).
+smoke(H, luckyStrike) :- number(H), not smoke(H,kools),not smoke(H,oldGold), not smoke(H,chesterfield), not smoke(H,parliaments).
+smoke(H, chesterfield) :- number(H), not smoke(H,kools),not smoke(H,oldGold), not smoke(H,luckyStrike), not smoke(H,parliaments).
+smoke(H, parliaments) :- number(H), not smoke(H,kools),not smoke(H,oldGold), not smoke(H,luckyStrike), not smoke(H,chesterfield).
+
+%1 { smoke(House, Cigarette) : houses(House) } 1 :- cigarettes(Cigarette).
+
+smoke(1,S):- cigarettes(S), not smoke(2,S),not smoke(3,S), not smoke(4,S), not smoke(5,S).
+smoke(2,S):- cigarettes(S), not smoke(1,S),not smoke(3,S), not smoke(4,S), not smoke(5,S).
+smoke(3,S) :- cigarettes(S), not smoke(1,S),not smoke(2,S), not smoke(4,S), not smoke(5,S).
+smoke(4,S) :- cigarettes(S), not smoke(1,S),not smoke(2,S), not smoke(3,S), not smoke(5,S).
+smoke(5,S) :- cigarettes(S), not smoke(1,S),not smoke(2,S), not smoke(3,S), not smoke(4,S).
+
+
+
+
+next_to(H1,H2) :- number(H1) , number(H2) , |H1-H2| == 1.
+
+% 2. The Englishman lives in the red house.
+:- number(H1) , number(H1) , color(H1,red) , nationality(H2,english) , H1 != H2.
+
+% 3. The Spaniard owns the dog.
+:- number(H1) , number(H2) , nationality(H1,spanish) , animal(H2, dog) , H1 != H2.
+
+% 4. Coffee is drunk in the green house.
+:- number(H1) , number(H2) , drink(H1, coffee) , color(H2, green) , H1 != H2.
+
+% 5. The Ukrainian drinks tea.
+:- number(H1) , number(H2) , drink(H1, tea) , nationality(H2, ukrainian) , H1 != H2.
+  
+% 6. The green house is immediately to the right of the ivory house.
+:- number(H1) , number(H2) , color(H1, green) , color(H2, ivory) , H1 != H2+1.
+
+% 7. The Old Gold smoker owns snails.
+:- number(H1) , number(H2) , smoke(H1, oldGold) , animal(H2, snails) , H1 != H2.
+
+% 8. Kools are smoked in the yellow house.
+:- number(H1) , number(H2) , smoke(H1, kools) , color(H2, yellow) , H1 != H2.
+
+% 9. Milk is drunk in the middle house.
+:- not drink(3, milk).
+
+% 10. The Norwegian lives in the first house.
+:- not nationality(1, norwegian).
+
+% 11. The man who smokes Chesterfields lives in the house next to the man with the fox.
+:- number(H1) , number(H2) , smoke(H1, chesterfields) , animal(H2, fox) , not next_to(H1,H2).
+
+% 12. Kools are smoked in the house next to the house where the horse is kept. 
+:- number(H1) , number(H2) , smoke(H1, kools) , animal(H2, horse) , not next_to(H1,H2).
+
+% 13. The Lucky Strike smoker drinks orange juice.
+:- number(H1) , number(H2) , smoke(H1, luckyStrike) , drink(H2, orangejuice) , H1 != H2.
+
+% 14. The Japanese smokes Parliaments.
+:- number(H1) , number(H2) , smoke(H1, parliaments) , nationality(H2, japanese) , H1 != H2.
+
+% 15. The Norwegian lives next to the blue house.
+:- number(H1) , number(H2) , nationality(H1, norwegian) , color(H2, blue) , not next_to(H1,H2).
+
+
+
+
+% for output:
+maison(House, Color, Nationality, Animal, Drink, Cigarette) :-
+    number(House),
+    color(House, Color),
+    nationality(House, Nationality),
+    animal(House, Animal),
+    drink(House, Drink),
+    smoke(House, Cigarette).
+
+
+#show maison/6.
+%#show has_zebra/1.
+
