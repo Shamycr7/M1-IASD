@@ -1,0 +1,165 @@
+
+F
+java:S1220""Move this file to a named package.H¯RMINORZ
+CODE_SMELL
+l	java:S106¦"9Replace this use of System.out or System.err by a logger.(Óõôì8ä•ŒÜÀ0HÇRMAJORZ
+CODE_SMELL
+o
+java:S1854+"7Remove this useless assignment to local variable "par".(§Òæµûÿÿÿÿ8€„’ÜÀ0HÏRMAJORZ
+CODE_SMELL
+j
+java:S1854*"7Remove this useless assignment to local variable "old".(•°£8€„’ÜÀ0HĞRMAJORZ
+CODE_SMELL
+o
+java:S1854)"7Remove this useless assignment to local variable "luc".(×È¶ıÿÿÿÿ8€„’ÜÀ0HÑRMAJORZ
+CODE_SMELL
+o
+java:S1854("7Remove this useless assignment to local variable "koo".(š…÷éúÿÿÿÿ8€„’ÜÀ0HÒRMAJORZ
+CODE_SMELL
+j
+java:S1854'"7Remove this useless assignment to local variable "che".(´Ó¿8€„’ÜÀ0HÓRMAJORZ
+CODE_SMELL
+o
+java:S1854%"7Remove this useless assignment to local variable "zeb".(øÕÔ”ıÿÿÿÿ8€„’ÜÀ0HÔRMAJORZ
+CODE_SMELL
+o
+java:S1854$"7Remove this useless assignment to local variable "sna".(ŒÎ¬µùÿÿÿÿ8€„’ÜÀ0HÕRMAJORZ
+CODE_SMELL
+j
+java:S1854#"7Remove this useless assignment to local variable "hor".(ìÜşù8€„’ÜÀ0HÖRMAJORZ
+CODE_SMELL
+o
+java:S1854""7Remove this useless assignment to local variable "fox".(üŸûˆúÿÿÿÿ8€„’ÜÀ0H×RMAJORZ
+CODE_SMELL
+o
+java:S1854!"7Remove this useless assignment to local variable "dog".(ã­¯îıÿÿÿÿ8€„’ÜÀ0HØRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "wat".(ì¨¢Çùÿÿÿÿ8€„’ÜÀ0HÙRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "tea".(èãíøıÿÿÿÿ8€„’ÜÀ0HÚRMAJORZ
+CODE_SMELL
+j
+java:S1854"7Remove this useless assignment to local variable "ora".(¸’—8€„’ÜÀ0HÛRMAJORZ
+CODE_SMELL
+i
+java:S1854"7Remove this useless assignment to local variable "mil".(Î÷‡8€„’ÜÀ0HÜRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "cof".(â“ú£üÿÿÿÿ8€„’ÜÀ0HİRMAJORZ
+CODE_SMELL
+j
+java:S1854"7Remove this useless assignment to local variable "ukr".(ôş³‚8€„’ÜÀ0HŞRMAJORZ
+CODE_SMELL
+j
+java:S1854"7Remove this useless assignment to local variable "spa".(³Ÿº«8€„’ÜÀ0HßRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "nor".(üÜÙÏüÿÿÿÿ8€„’ÜÀ0HàRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "jap".(—¿ßÜşÿÿÿÿ8€„’ÜÀ0HáRMAJORZ
+CODE_SMELL
+j
+java:S1854"7Remove this useless assignment to local variable "eng".(øÂ˜8€„’ÜÀ0HâRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "yel".(½ÚÒĞşÿÿÿÿ8€„’ÜÀ0HãRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "red".(ÒİùÈùÿÿÿÿ8€„’ÜÀ0HäRMAJORZ
+CODE_SMELL
+i
+java:S1854"7Remove this useless assignment to local variable "ivo".(üµÿ18€„’ÜÀ0HåRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "gre".(‘˜–øÿÿÿÿ8€„’ÜÀ0HæRMAJORZ
+CODE_SMELL
+o
+java:S1854"7Remove this useless assignment to local variable "blu".(‚ÈÓ“øÿÿÿÿ8€„’ÜÀ0HçRMAJORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "blu" local variable.(‚ÈÓ“øÿÿÿÿ8€„’ÜÀ0HèRMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "gre" local variable.(‘˜–øÿÿÿÿ8€„’ÜÀ0HêRMINORZ
+CODE_SMELL
+Z
+java:S1481"(Remove this unused "ivo" local variable.(üµÿ18€„’ÜÀ0HìRMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "red" local variable.(ÒİùÈùÿÿÿÿ8€„’ÜÀ0HîRMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "yel" local variable.(½ÚÒĞşÿÿÿÿ8€„’ÜÀ0HğRMINORZ
+CODE_SMELL
+[
+java:S1481"(Remove this unused "eng" local variable.(øÂ˜8€„’ÜÀ0HòRMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "jap" local variable.(—¿ßÜşÿÿÿÿ8€„’ÜÀ0HôRMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "nor" local variable.(üÜÙÏüÿÿÿÿ8€„’ÜÀ0HöRMINORZ
+CODE_SMELL
+[
+java:S1481"(Remove this unused "spa" local variable.(³Ÿº«8€„’ÜÀ0HøRMINORZ
+CODE_SMELL
+[
+java:S1481"(Remove this unused "ukr" local variable.(ôş³‚8€„’ÜÀ0HúRMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "cof" local variable.(â“ú£üÿÿÿÿ8€„’ÜÀ0HüRMINORZ
+CODE_SMELL
+Z
+java:S1481"(Remove this unused "mil" local variable.(Î÷‡8€„’ÜÀ0HşRMINORZ
+CODE_SMELL
+[
+java:S1481"(Remove this unused "ora" local variable.(¸’—8€„’ÜÀ0H€RMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "tea" local variable.(èãíøıÿÿÿÿ8€„’ÜÀ0H‚RMINORZ
+CODE_SMELL
+`
+java:S1481"(Remove this unused "wat" local variable.(ì¨¢Çùÿÿÿÿ8€„’ÜÀ0H„RMINORZ
+CODE_SMELL
+`
+java:S1481!"(Remove this unused "dog" local variable.(ã­¯îıÿÿÿÿ8€„’ÜÀ0H†RMINORZ
+CODE_SMELL
+`
+java:S1481""(Remove this unused "fox" local variable.(üŸûˆúÿÿÿÿ8€„’ÜÀ0HˆRMINORZ
+CODE_SMELL
+[
+java:S1481#"(Remove this unused "hor" local variable.(ìÜşù8€„’ÜÀ0HŠRMINORZ
+CODE_SMELL
+`
+java:S1481$"(Remove this unused "sna" local variable.(ŒÎ¬µùÿÿÿÿ8€„’ÜÀ0HŒRMINORZ
+CODE_SMELL
+`
+java:S1481%"(Remove this unused "zeb" local variable.(øÕÔ”ıÿÿÿÿ8€„’ÜÀ0HRMINORZ
+CODE_SMELL
+[
+java:S1481'"(Remove this unused "che" local variable.(´Ó¿8€„’ÜÀ0HRMINORZ
+CODE_SMELL
+`
+java:S1481("(Remove this unused "koo" local variable.(š…÷éúÿÿÿÿ8€„’ÜÀ0H’RMINORZ
+CODE_SMELL
+`
+java:S1481)"(Remove this unused "luc" local variable.(×È¶ıÿÿÿÿ8€„’ÜÀ0H”RMINORZ
+CODE_SMELL
+[
+java:S1481*"(Remove this unused "old" local variable.(•°£8€„’ÜÀ0H–RMINORZ
+CODE_SMELL
+`
+java:S1481+"(Remove this unused "par" local variable.(§Òæµûÿÿÿÿ8€„’ÜÀ0H˜RMINORZ
+CODE_SMELL
+n	java:S125/"<This block of commented-out lines of code should be removed.(‘½Ç¦8€„’ÜÀ0HšRMAJORZ
+CODE_SMELL
+n	java:S1255"<This block of commented-out lines of code should be removed.(³¥ûØ8€„’ÜÀ0HRMAJORZ
+CODE_SMELL
+n	java:S125}"<This block of commented-out lines of code should be removed.(Áı’Å8€„’ÜÀ0HÓRMAJORZ
+CODE_SMELL
+ƒ
+java:S1128"PRemove this unused import 'org.chocosolver.solver.constraints.extension.Tuples'.(Øİ ’8€„’ÜÀ0HéRMINORZ
+CODE_SMELL

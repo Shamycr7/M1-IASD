@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+/Users/chamykaci/eclipse-workspace/bibliotheque/.metadata/.plugins/org.eclipse.jdt.core
+1937617683.index
+1865797976.index
+2796672067.index
