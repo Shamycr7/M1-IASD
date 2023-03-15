@@ -36,19 +36,19 @@ float c[256];
 for(int i=0;i<256;i++){
     t[i]=0;
 }
-f= fopen("fich1.txt" ,"w");
+f= fopen("fich2.txt" ,"w");
 for(int i=0;i<nW;i++) 
     for(int j=0;j<nH;j++) 
        t[ImgIn[i*nW+j]]++; 
 
-c [0]=float(t[0])/nTaille;
+//c [0]=float(t[0])/nTaille;
 
-for (int i = 1; i<256;i++){
+//for (int i = 1; i<256;i++){
    
- c[i] =c[i-1]+float(t[i])/nTaille;
+ //c[i] =c[i-1]+float(t[i])/nTaille;
  //printf(" %d %f\n",i,c[i]);
  
- }
+ //}
 
 for (int i = 0; i<255;i++){
     
